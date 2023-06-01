@@ -1,6 +1,6 @@
 class Chess:
-    color = 'white'
-    position = (0, 0)
+    color = 'white'  # default color the chess piece
+    position = (0, 0)  # default position the chess piece
 
     def change_color(self) -> None:  # change the color of the chess piece
         if self.color == "white":
@@ -14,7 +14,7 @@ class Chess:
         else:
             print("Invalid position. Position coordinates should be between 0 and 7.")
 
-    def check_move(self, new_position: tuple) -> bool:   # checking the ability to make a move
+    def check_move(self, new_position: tuple) -> bool:  # checking the ability to make a move
         if 0 <= new_position[0] <= 7 and 0 <= new_position[1] <= 7:
             return True
         else:
@@ -23,7 +23,7 @@ class Chess:
 
 class Pawn(Chess):
 
-    def move(self, new_position: tuple): # move method for Pawn
+    def move(self, new_position: tuple):  # move method for Pawn
         self.old_position = self.position
         x, y = self.position
         new_x, new_y = new_position
@@ -79,7 +79,7 @@ class Rook(Chess):
 
 class Bishop(Chess):
 
-    def move(self, new_position: tuple):   # move method for Bishop
+    def move(self, new_position: tuple):  # move method for Bishop
         self.old_position = self.position
         x, y = self.position
         new_x, new_y = new_position
