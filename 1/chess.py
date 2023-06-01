@@ -32,20 +32,22 @@ class Pawn(Chess):
             if x == new_x and new_y - y == 1:
                 self.position = (new_x, new_y)
                 print('You make a move')
+                return True
             else:
                 print("Can't make this move")
                 self.position = self.old_position
+                return False
 
         elif self.color == 'black' and self.check_move(new_position):  # possibility of a move for black
             if x == new_x and new_y - y == -1:
                 self.position = (new_x, new_y)
                 print('You make a move')
+                return True
             else:
                 print("Can't make this move")
                 self.position = self.old_position
+                return False
 
-    def __str__(self):  # method that returns the name Pawn
-        return 'Pawn'
 
 
 class King(Chess):
@@ -59,12 +61,11 @@ class King(Chess):
             if -1 >= new_x - x <= 1 and -1 >= new_y - y <= 1:
                 self.position = (new_x, new_y)
                 print('You make a move')
+                return True
             else:
                 print("Can't make this move")
                 self.position = self.old_position
-
-    def __str__(self):  # method that returns the name King
-        return 'King'
+                return False
 
 
 class Rook(Chess):
@@ -78,12 +79,11 @@ class Rook(Chess):
             if (x == new_x and y != new_y) or (x != new_x and y == new_y):
                 self.position = (new_x, new_y)
                 print('You make a move')
+                return True
             else:
                 print("Can't make this move")
                 self.position = self.old_position
-
-    def __str__(self):  # method that returns the name Rook
-        return 'Rook'
+                return False
 
 
 class Bishop(Chess):
@@ -97,12 +97,11 @@ class Bishop(Chess):
             if new_x - x == new_y - y:
                 self.position = (new_x, new_y)
                 print('You make a move')
+                return True
             else:
                 print("Can't make this move")
                 self.position = self.old_position
-
-    def __str__(self):  # method that returns the name Bishop
-        return 'Bishop'
+                return False
 
 
 class Queen(Chess):
@@ -116,22 +115,22 @@ class Queen(Chess):
             if (x == new_x and y != new_y) or (x != new_x and y == new_y) or (new_x - x == new_y - y):
                 self.position = (new_x, new_y)
                 print('You make a move')
+                return True
             else:
                 print("Can't make this move")
                 self.position = self.old_position
+                return False
         else:
             print("Can't make this move")
             self.position = self.old_position
-
-    def __str__(self):  # method that returns the name Queen
-        return 'Queen'
+            return False
 
 
 # function that looks for a piece that can go to a given position
 def find_figures(figures: list, new_position: tuple) -> list:
     possible_figures = []
     for i in figures:
-        if i.check_move(new_position):
+        if i.move(new_position):
             possible_figures.append(i)
     return possible_figures
 
@@ -144,6 +143,9 @@ t2.position = (2, 2)
 t3.position = (0, 0)
 lst = [t1, t2, t3]
 new_position = (5, 1)
+
+
 needed = find_figures(lst, new_position)
-for i in needed:
-    print(i)
+class_names = [type(item).__name__ for item in needed]
+pieces = ' '.join(class_names)
+print(f'The piece that can make this move is: {pieces}')
