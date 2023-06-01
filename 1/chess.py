@@ -44,6 +44,9 @@ class Pawn(Chess):
                 print("Can't make this move")
                 self.position = self.old_position
 
+    def __str__(self):  # method that returns the name Pawn
+        return 'Pawn'
+
 
 class King(Chess):
 
@@ -59,6 +62,9 @@ class King(Chess):
             else:
                 print("Can't make this move")
                 self.position = self.old_position
+
+    def __str__(self):  # method that returns the name King
+        return 'King'
 
 
 class Rook(Chess):
@@ -76,6 +82,9 @@ class Rook(Chess):
                 print("Can't make this move")
                 self.position = self.old_position
 
+    def __str__(self):  # method that returns the name Rook
+        return 'Rook'
+
 
 class Bishop(Chess):
 
@@ -91,6 +100,9 @@ class Bishop(Chess):
             else:
                 print("Can't make this move")
                 self.position = self.old_position
+
+    def __str__(self):  # method that returns the name Bishop
+        return 'Bishop'
 
 
 class Queen(Chess):
@@ -111,8 +123,27 @@ class Queen(Chess):
             print("Can't make this move")
             self.position = self.old_position
 
+    def __str__(self):  # method that returns the name Queen
+        return 'Queen'
+
+
+# function that looks for a piece that can go to a given position
+def find_figures(figures: list, new_position: tuple) -> list:
+    possible_figures = []
+    for i in figures:
+        if i.check_move(new_position):
+            possible_figures.append(i)
+    return possible_figures
+
 
 t1 = Bishop()
+t2 = Pawn()
+t3 = Rook()
 t1.position = (4, 0)
-t1.move((5, 1))
-print(t1.position)
+t2.position = (2, 2)
+t3.position = (0, 0)
+lst = [t1, t2, t3]
+new_position = (5, 1)
+needed = find_figures(lst, new_position)
+for i in needed:
+    print(i)
