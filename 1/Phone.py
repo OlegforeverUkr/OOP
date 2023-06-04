@@ -9,8 +9,12 @@ connection = psycopg2.connect(database='phone',
 cursor = connection.cursor()
 
 class Telephone:
-    number = '0000000'  # default number
-    _counter = 0  # incoming call counter
+    def __init__(self, number='0000000', _counter=0):
+        self.number = number  # default number
+        self._counter = _counter  # incoming call counter
+
+    def __str__(self):
+        return f'Create Class Telephone with number - {self.number}'
 
     def set_number(self, number):  # assigns a new number
         self.number = number

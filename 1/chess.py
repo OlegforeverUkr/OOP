@@ -1,6 +1,7 @@
 class Chess:
-    color = 'white'  # default color the chess piece
-    position = (0, 0)  # default position the chess piece
+    def __init__(self, color='white', position=(0, 0)):
+        self.color = color  # default color the chess piece
+        self.position = position  # default position the chess piece
 
     def change_color(self) -> None:  # change the color of the chess piece
         if self.color == "white":
@@ -22,6 +23,9 @@ class Chess:
 
 
 class Pawn(Chess):
+
+    def __str__(self):
+        return f'Create object {self.__class__.__name__}'
 
     def move(self, new_position: tuple):  # move method for Pawn
         self.old_position = self.position
@@ -49,8 +53,10 @@ class Pawn(Chess):
                 return False
 
 
-
 class King(Chess):
+
+    def __str__(self):
+        return f'Create object {self.__class__.__name__}'
 
     def move(self, new_position: tuple):  # move method for King
         self.old_position = self.position
@@ -70,6 +76,9 @@ class King(Chess):
 
 class Rook(Chess):
 
+    def __str__(self):
+        return f'Create object {self.__class__.__name__}'
+
     def move(self, new_position: tuple):  # move method for Rook
         self.old_position = self.position
         x, y = self.position
@@ -88,6 +97,9 @@ class Rook(Chess):
 
 class Bishop(Chess):
 
+    def __str__(self):
+        return f'Create object {self.__class__.__name__}'
+
     def move(self, new_position: tuple):  # move method for Bishop
         self.old_position = self.position
         x, y = self.position
@@ -105,6 +117,9 @@ class Bishop(Chess):
 
 
 class Queen(Chess):
+
+    def __str__(self):
+        return f'Create object {self.__class__.__name__}'
 
     def move(self, new_position: tuple):  # move method for Queen
         self.old_position = self.position
@@ -138,12 +153,12 @@ def find_figures(figures: list, new_position: tuple) -> list:
 t1 = Bishop()
 t2 = Pawn()
 t3 = Rook()
+print(f'{t1}\n{t2}\n{t3}')
 t1.position = (4, 0)
 t2.position = (2, 2)
 t3.position = (0, 0)
 lst = [t1, t2, t3]
 new_position = (5, 1)
-
 
 needed = find_figures(lst, new_position)
 class_names = [type(item).__name__ for item in needed]
