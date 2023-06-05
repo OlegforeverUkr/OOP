@@ -1,12 +1,23 @@
 import psycopg2
 
 # database connection
-connection = psycopg2.connect(database='phone',
-                        user='postgres',
-                        password='111',
-                        host='127.0.0.1',
-                        port=5432)
-cursor = connection.cursor()
+class DatabaseManager:
+    def __init__(self, database='phone', user='postgres', password='111', host='127.0.0.1', port=5432):
+        self.connection = psycopg2.connect(database=database, user=user, password=password, host=host, port=port)
+        self.cursor = self.connection.cursor()
+
+    def create_table(self):
+        self.cursor.execute("CREATE TABLE IF NOT EXISTS calls (id SERIAL PRIMARY KEY, "
+                            "phone_number VARCHAR(20), incoming_calls INTEGER)")
+        self.connection.commit()
+
+    def save_to_database(self, number, counter):
+        self.cursor.execute(f"INSERT INTO calls (phone_number, incoming_calls) VALUES ('{number}', {counter})")
+        self.connection.commit()
+
+    def close_connection(self):
+        self.cursor.close()
+        self.connection.close()
 
 class Telephone:
     def __init__(self, number='0000000', _counter=0):
@@ -25,12 +36,10 @@ class Telephone:
     def count_calls(self):  # increases the counter of incoming calls by one
         self._counter += 1
 
-    def save_to_database(self):  # save incoming call count to the database
-        cursor.execute(f'INSERT INTO calls (phone_number, incoming_calls) VALUES ({self.number}, {self._counter})')
-        connection.commit()
 
 
 my_phone = Telephone()
+db_manager = DatabaseManager()
 my_phone1 = Telephone()
 my_phone2 = Telephone()
 my_phone3 = Telephone
@@ -53,14 +62,9 @@ my_phone1.count_calls()
 my_phone2.count_calls()
 phones = [my_phone, my_phone1, my_phone2]
 
-cursor.execute("CREATE TABLE IF NOT EXISTS calls (id SERIAL PRIMARY KEY,\n"
-               " phone_number VARCHAR(20), incoming_calls INTEGER)")
+for phone in phones:
+    db_manager.save_to_database(phone.number, phone.get_incoming_calls())
+    print(f'Phone {phone.number} has {phone.get_incoming_calls()} incoming calls')
 
-for i in phones:
-    i.save_to_database()
-    print(f'Phone {i.number} has {i.get_incoming_calls()} incoming calls')
-
-# Close connect with database
-cursor.close()
-connection.close()
+db_manager.close_connection()
 
