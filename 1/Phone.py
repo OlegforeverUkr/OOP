@@ -20,9 +20,9 @@ class DatabaseManager:
 
 
 class Telephone:
-    def __init__(self, number='0000000', _counter=0):
+    def __init__(self, number='0000000', counter=0):
         self.number = number  # default number
-        self._counter = _counter  # incoming call counter
+        self.counter = counter  # incoming call counter
 
     def __str__(self):
         return f'Create Class Telephone with number - {self.number}'
@@ -31,10 +31,10 @@ class Telephone:
         self.number = number
 
     def get_incoming_calls(self):  # get the number of incoming calls
-        return self._counter
+        return self.counter
 
     def count_calls(self):  # increases the counter of incoming calls by one
-        self._counter += 1
+        self.counter += 1
 
 
 db_manager = DatabaseManager()
