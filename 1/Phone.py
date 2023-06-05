@@ -38,6 +38,7 @@ class Telephone:
         self.counter += 1
 
 
+
 db_manager = DatabaseManager()
 my_phone = Telephone()
 
