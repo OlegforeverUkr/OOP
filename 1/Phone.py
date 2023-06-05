@@ -39,9 +39,8 @@ class Telephone:
 
 
 db_manager = DatabaseManager()
-
 my_phone = Telephone()
-db_manager = DatabaseManager()
+
 my_phone1 = Telephone()
 my_phone2 = Telephone()
 my_phone3 = Telephone
