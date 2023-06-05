@@ -37,9 +37,6 @@ class Telephone:
     def count_calls(self):  # increases the counter of incoming calls by one
         self.counter += 1
 
-
-db_manager = DatabaseManager()
-
 my_phone = Telephone()
 db_manager = DatabaseManager()
 my_phone1 = Telephone()
