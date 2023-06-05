@@ -1,6 +1,7 @@
 import psycopg2
 
 # database connection
+
 class DatabaseManager:
     def __init__(self, database='phone', user='postgres', password='111', host='127.0.0.1', port=5432):
         self.connection = psycopg2.connect(database=database, user=user, password=password, host=host, port=port)
@@ -20,9 +21,9 @@ class DatabaseManager:
         self.connection.close()
 
 class Telephone:
-    def __init__(self, number='0000000', _counter=0):
+    def __init__(self, number='0000000', counter=0):
         self.number = number  # default number
-        self._counter = _counter  # incoming call counter
+        self.counter = counter  # incoming call counter
 
     def __str__(self):
         return f'Create Class Telephone with number - {self.number}'
@@ -31,12 +32,13 @@ class Telephone:
         self.number = number
 
     def get_incoming_calls(self):  # get the number of incoming calls
-        return self._counter
+        return self.counter
 
     def count_calls(self):  # increases the counter of incoming calls by one
-        self._counter += 1
+        self.counter += 1
 
 
+db_manager = DatabaseManager()
 
 my_phone = Telephone()
 db_manager = DatabaseManager()
@@ -62,9 +64,9 @@ my_phone1.count_calls()
 my_phone2.count_calls()
 phones = [my_phone, my_phone1, my_phone2]
 
+
 for phone in phones:
     db_manager.save_to_database(phone.number, phone.get_incoming_calls())
     print(f'Phone {phone.number} has {phone.get_incoming_calls()} incoming calls')
 
 db_manager.close_connection()
-
