@@ -1,0 +1,2 @@
+2023-06-10 14:07:00.692933 | EmailAlreadyExistsException
+2023-06-10 14:07:07.713161 | EmailAlreadyExistsException
