@@ -1,8 +1,12 @@
 import csv
-from Exception import EmailAlreadyExistsException
+import datetime
 
 TODAY = 28
 HOLIDAYS = 6
+
+
+class EmailAlreadyExistsException(Exception):
+    pass
 
 
 class Employee:
@@ -39,10 +43,16 @@ class Employee:
 
     def validate(self):
         with open('emails.csv', 'r') as file:
-            text = csv.reader(file)
-            for i in text:
-                if i == self.email:
-                    raise EmailAlreadyExistsException
+            reader = csv.reader(file)
+            for i in reader:
+                if self.email in i:
+                    time = datetime.datetime.now()
+                    error = f"{time} | EmailAlreadyExistsException\n"
+
+                    with open('logs.txt', 'a') as file1:
+                        file1.write(error)
+
+                    raise EmailAlreadyExistsException('Error This email already exist')
 
 
 class Recruiter(Employee):
