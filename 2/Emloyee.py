@@ -1,12 +1,9 @@
 import csv
 import datetime
+from Exception import EmailAlreadyExistsException
 
 TODAY = 28
 HOLIDAYS = 6
-
-
-class EmailAlreadyExistsException(Exception):
-    pass
 
 
 class Employee:
@@ -104,7 +101,7 @@ vanya = Developer('Roma', 1700, tech_stack=['java', 'C#'], email='num@vanya.com'
 print(roma == vasya)
 print(vasya > roma)
 print(roma.check_salary(TODAY, HOLIDAYS))
-# petya = vasya + vanya
-# print(petya)
-# print(vasya > vanya)
-# print(vasya == vanya)
+petya = vasya + vanya
+print(petya)
+print(vasya > vanya)
+print(vasya == vanya)
