@@ -2,8 +2,7 @@ import csv
 import datetime
 from Exception import EmailAlreadyExistsException
 
-TODAY = 28
-HOLIDAYS = 6
+TODAY = datetime.date.today()
 
 
 class Employee:
@@ -26,12 +25,15 @@ class Employee:
     def __gt__(self, other):
         return self.salary > other.salary
 
-    def check_salary(self, days, holiday=0):
-        if not holiday:
-            return self.salary * days
-        else:
-            minus_salary = self.salary * holiday
-            return self.salary * days - minus_salary
+    def check_salary(self, days):
+        today = datetime.date.today()
+        working_days = 0
+        for i in range(1, days + 1):
+            all_days = datetime.date(today.year, today.month, i)
+            if all_days.weekday() < 5:
+                working_days += 1
+
+        return working_days * self.salary
 
     def save_email(self):
         with open('emails.csv', 'a', newline='') as file:
@@ -40,8 +42,8 @@ class Employee:
 
     def validate(self):
         with open('emails.csv', 'r') as file:
-            reader = csv.reader(file)
-            for i in reader:
+            read_file = csv.reader(file)
+            for i in read_file:
                 if self.email in i:
                     time = datetime.datetime.now()
                     error = f"{time} | EmailAlreadyExistsException\n"
@@ -95,12 +97,12 @@ class Developer(Employee):
         return Developer(name, salary, tech_stack=tech_stack, email=f'{self.email} {other.email}')
 
 
-roma = Recruiter('Roma', 1000, email='recrut@roma.com')
+roma = Recruiter('Roma', 1200, email='recrut@roma.com')
 vasya = Developer('Vasya', 1500, tech_stack=['java', 'python', 'C++'], email='dev@vasya.com')
-vanya = Developer('Roma', 1700, tech_stack=['java', 'C#'], email='num@vanya.com')
+vanya = Developer('Vanya', 1700, tech_stack=['java', 'C#'], email='num@vanya.com')
 print(roma == vasya)
 print(vasya > roma)
-print(roma.check_salary(TODAY, HOLIDAYS))
+print(roma.check_salary(TODAY.day))
 petya = vasya + vanya
 print(petya)
 print(vasya > vanya)
