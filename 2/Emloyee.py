@@ -46,12 +46,12 @@ class Employee:
             for i in read_file:
                 if self.email in i:
                     time = datetime.datetime.now()
-                    error = f"{time} | EmailAlreadyExistsException\n"
+                    error = f"{time} | {EmailAlreadyExistsException('Error: This email already exist')}\n"
 
                     with open('logs.txt', 'a') as file1:
                         file1.write(error)
 
-                    raise EmailAlreadyExistsException('Error This email already exist')
+                    raise EmailAlreadyExistsException('Error: This email already exist')
 
 
 class Recruiter(Employee):
