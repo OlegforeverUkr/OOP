@@ -1,2 +1,0 @@
-2023-06-12 17:18:12.679362 | Error: This email already exist
-2023-06-12 17:18:13.480408 | Error: This email already exist

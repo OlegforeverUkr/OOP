@@ -40,17 +40,19 @@ class Employee:
             writer = csv.writer(file)
             writer.writerow([self.email])
 
+    @staticmethod
+    def write_log():
+        time = datetime.datetime.now()
+        error = f"{time} | {EmailAlreadyExistsException('Error: This email already exist')}\n"
+        with open('logs.txt', 'a') as file1:
+            file1.write(error)
+
     def validate(self):
         with open('emails.csv', 'r') as file:
             read_file = csv.reader(file)
             for i in read_file:
                 if self.email in i:
-                    time = datetime.datetime.now()
-                    error = f"{time} | {EmailAlreadyExistsException('Error: This email already exist')}\n"
-
-                    with open('logs.txt', 'a') as file1:
-                        file1.write(error)
-
+                    self.write_log()
                     raise EmailAlreadyExistsException('Error: This email already exist')
 
 
@@ -78,17 +80,17 @@ class Developer(Employee):
     def __eq__(self, other):
         if isinstance(other, Developer):
             return len(self.tech_stack) == len(other.tech_stack)
-        return 'Invalid data'
+        raise Exception('Class objects are not equal')
 
     def __lt__(self, other):
         if isinstance(other, Developer):
             return len(self.tech_stack) < len(other.tech_stack)
-        return 'Invalid data'
+        raise Exception('First object of the class is not less than the second')
 
     def __gt__(self, other):
         if isinstance(other, Developer):
             return len(self.tech_stack) > len(other.tech_stack)
-        return 'Invalid data'
+        raise Exception('First object of the class is not great than the second')
 
     def __add__(self, other):
         name = f'{self.name} {other.name}'

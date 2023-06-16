@@ -3,6 +3,8 @@ import csv
 
 
 class Candidate:
+    __CANDIDATES = []
+
     def __init__(self,
                  first_name,
                  last_name,
@@ -24,29 +26,12 @@ class Candidate:
 
     @classmethod
     def generate_candidates(cls, file):
-        candidates = []
 
-        if file.startswith('http'):            # Create a class object from http
-            request = requests.get(file)
-            text = request.text
-            lines = text.split('\n')
-            lines.pop()
-
-            for i in lines[1:]:
-                characters = i.split(',')
-                all_name = [x for x in characters[0].split()]
-                first_name = all_name[0]
-                last_name = all_name[1]
-                characters.pop(0)
-                characters.insert(0, first_name)
-                characters.insert(1, last_name)
-                new_candidate = cls(*characters)
-                candidates.append(new_candidate)
-
-            return candidates
+        if file.startswith('http'):
+            return cls.get_candidates(file)
 
         else:
-            with open(file, 'r') as file:      # Create a class object from file
+            with open(file, 'r') as file:  # Create a class object from file
                 read = csv.reader(file)
                 print(read)
                 next(read)
@@ -65,10 +50,29 @@ class Candidate:
                                     tech_stack,
                                     main_skill,
                                     main_skill_grade)
-                    candidates.append(candidate)
+                    cls.__CANDIDATES.append(candidate)
 
-            return candidates
+            return cls.__CANDIDATES
 
+    @classmethod
+    def get_candidates(cls, http):
+        request = requests.get(http)
+        text = request.text
+        lines = text.split('\n')
+        lines.pop()
+
+        for i in lines[1:]:
+            characters = i.split(',')
+            all_name = [x for x in characters[0].split()]
+            first_name = all_name[0]
+            last_name = all_name[1]
+            characters.pop(0)
+            characters.insert(0, first_name)
+            characters.insert(1, last_name)
+            new_candidate = cls(*characters)
+            cls.__CANDIDATES.append(new_candidate)
+
+        return cls.__CANDIDATES
 
     def __str__(self):
         return f'{self.first_name}, ' \
@@ -85,5 +89,6 @@ ivan = Candidate('Ivan',
                  'Middle',
                  )
 
-for i in Candidate.generate_candidates('candidates.csv'):
+for i in Candidate.get_candidates(
+        'https://bitbucket.org/ivnukov/lesson2/raw/4f59074e6fbb552398f87636b5bf089a1618da0a/candidates.csv'):
     print(i.__dict__)
