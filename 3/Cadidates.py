@@ -3,7 +3,6 @@ import csv
 
 
 class Candidate:
-    __CANDIDATES = []
 
     def __init__(self,
                  first_name,
@@ -26,14 +25,13 @@ class Candidate:
 
     @classmethod
     def generate_candidates(cls, file):
-
+        candidates = []
         if file.startswith('http'):
             return cls.get_candidates(file)
 
         else:
             with open(file, 'r') as file:  # Create a class object from file
                 read = csv.reader(file)
-                print(read)
                 next(read)
                 for x in read:
                     characters = x[0]
@@ -50,12 +48,13 @@ class Candidate:
                                     tech_stack,
                                     main_skill,
                                     main_skill_grade)
-                    cls.__CANDIDATES.append(candidate)
+                    candidates.append(candidate)
 
-            return cls.__CANDIDATES
+            return candidates
 
     @classmethod
     def get_candidates(cls, http):
+        candidates = []
         request = requests.get(http)
         text = request.text
         lines = text.split('\n')
@@ -70,9 +69,9 @@ class Candidate:
             characters.insert(0, first_name)
             characters.insert(1, last_name)
             new_candidate = cls(*characters)
-            cls.__CANDIDATES.append(new_candidate)
+            candidates.append(new_candidate)
 
-        return cls.__CANDIDATES
+        return candidates
 
     def __str__(self):
         return f'{self.first_name}, ' \
@@ -81,14 +80,8 @@ class Candidate:
                f'{self.main_skill_grade}'
 
 
-ivan = Candidate('Ivan',
-                 'Morozov',
-                 'email@vas.com',
-                 'PHP|Laravel|MySQL',
-                 'PHP',
-                 'Middle',
-                 )
+if __name__ == '__main__':
 
-for i in Candidate.get_candidates(
-        'https://bitbucket.org/ivnukov/lesson2/raw/4f59074e6fbb552398f87636b5bf089a1618da0a/candidates.csv'):
-    print(i.__dict__)
+    for i in Candidate.get_candidates(
+            'https://bitbucket.org/ivnukov/lesson2/raw/4f59074e6fbb552398f87636b5bf089a1618da0a/candidates.csv'):
+        print(i.__dict__)

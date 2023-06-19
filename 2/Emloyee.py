@@ -53,7 +53,7 @@ class Employee:
             for i in read_file:
                 if self.email in i:
                     self.write_log()
-                    raise EmailAlreadyExistsException('Error: This email already exist')
+                    return 'Error: This email already exist'
 
 
 class Recruiter(Employee):
@@ -99,13 +99,14 @@ class Developer(Employee):
         return Developer(name, salary, tech_stack=tech_stack, email=f'{self.email} {other.email}')
 
 
-roma = Recruiter('Roma', 1200, email='recrut@roma.com')
-vasya = Developer('Vasya', 1500, tech_stack=['java', 'python', 'C++'], email='dev@vasya.com')
-vanya = Developer('Vanya', 1700, tech_stack=['java', 'C#'], email='num@vanya.com')
-print(roma == vasya)
-print(vasya > roma)
-print(roma.check_salary(TODAY.day))
-petya = vasya + vanya
-print(petya)
-print(vasya > vanya)
-print(vasya == vanya)
+if __name__ == "__main__":
+    roma = Recruiter('Roma', 1200, email='recrut@roma.com')
+    vasya = Developer('Vasya', 1500, tech_stack=['java', 'python', 'C++'], email='dev@vasya.com')
+    vanya = Developer('Vanya', 1700, tech_stack=['java', 'C#'], email='num@vanya.com')
+    print(roma == vasya)
+    print(vasya > roma)
+    print(roma.check_salary(TODAY.day))
+    petya = vasya + vanya
+    print(petya)
+    print(vasya > vanya)
+    print(vasya == vanya)
