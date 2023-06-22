@@ -1,9 +1,10 @@
 from unittest import TestCase
+from unittest import mock
 from Emloyee import Employee, Developer, Recruiter
 import datetime
 
 
-class TestOne(TestCase):
+class TestEmployee(TestCase):
     def setUp(self) -> None:
         self.data = datetime.date.today()
         self.empploye = Employee(name="Boris",
@@ -16,8 +17,26 @@ class TestOne(TestCase):
     def test_work(self):
         self.assertIsInstance(self.empploye.work(), str)
 
+    @mock.patch('builtins.open', new_callable=mock.mock_open, read_data='borya@mail.com')
+    def test_open_file(self, mock_file):
+        expected_result = 'borya@mail.com'
 
-class TestTwo(TestCase):
+        with open('emails.csv') as file:
+            result = file.read()
+
+        self.assertEqual(expected_result, result)
+
+    @mock.patch('builtins.open', new_callable=mock.mock_open, read_data='borya@mail.com')
+    def test_error_mail(self, mock_file):
+        expected_result = 'vasya@mail.com'
+
+        with open('emails.csv') as file:
+            result = file.read()
+
+        self.assertNotEqual(result, expected_result)
+
+
+class TestRecruiter(TestCase):
     def setUp(self) -> None:
         self.data = datetime.date.today()
         self.recrut = Recruiter(name="Andrey",
@@ -31,13 +50,12 @@ class TestTwo(TestCase):
         self.assertEqual(self.recrut.check_salary(2), 3400)
 
 
-class TestThree(TestCase):
+class TestDeveloper(TestCase):
     def setUp(self) -> None:
         self.data = datetime.date.today()
         self.dev = Developer(name="Jora",
                              salary=1500,
                              tech_stack=['java', 'C#'],
-
                              )
 
     def test_work(self):
