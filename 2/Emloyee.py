@@ -80,17 +80,17 @@ class Developer(Employee):
     def __eq__(self, other):
         if isinstance(other, Developer):
             return len(self.tech_stack) == len(other.tech_stack)
-        raise Exception('Class objects are not equal')
+        raise Exception('Different classes for comparison')
 
     def __lt__(self, other):
         if isinstance(other, Developer):
             return len(self.tech_stack) < len(other.tech_stack)
-        raise Exception('First object of the class is not less than the second')
+        raise Exception('Different classes for comparison')
 
     def __gt__(self, other):
         if isinstance(other, Developer):
             return len(self.tech_stack) > len(other.tech_stack)
-        raise Exception('First object of the class is not great than the second')
+        raise Exception('Different classes for comparison')
 
     def __add__(self, other):
         name = f'{self.name} {other.name}'
