@@ -1,5 +1,6 @@
 from unittest import TestCase
 from unittest import mock
+from unittest.mock import patch
 from Emloyee import Employee, Developer, Recruiter
 import datetime
 
@@ -26,14 +27,10 @@ class TestEmployee(TestCase):
 
         self.assertEqual(expected_result, result)
 
-    @mock.patch('builtins.open', new_callable=mock.mock_open, read_data='borya@mail.com')
-    def test_error_mail(self, mock_file):
+    @patch('tests.TestEmployee.test_open_file', return_value='borya@mail.com')
+    def test_error_mail(self, test_open_file):
         expected_result = 'vasya@mail.com'
-
-        with open('emails.csv') as file:
-            result = file.read()
-
-        self.assertNotEqual(result, expected_result)
+        self.assertNotEqual(test_open_file(), expected_result)
 
 
 class TestRecruiter(TestCase):

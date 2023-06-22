@@ -80,3 +80,12 @@
 2023-06-22 13:58:10.934328 | Error: This email already exist
 2023-06-22 13:58:10.938328 | Error: This email already exist
 2023-06-22 13:58:15.113558 | Error: This email already exist
+2023-06-22 14:04:19.600952 | Error: This email already exist
+2023-06-22 14:04:41.453267 | Error: This email already exist
+2023-06-22 14:04:57.359743 | Error: This email already exist
+2023-06-22 14:06:39.239816 | Error: This email already exist
+2023-06-22 14:07:29.896057 | Error: This email already exist
+2023-06-22 14:08:07.030084 | Error: This email already exist
+2023-06-22 14:08:07.034085 | Error: This email already exist
+2023-06-22 14:08:07.057086 | Error: This email already exist
+2023-06-22 14:08:07.061086 | Error: This email already exist
