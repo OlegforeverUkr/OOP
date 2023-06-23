@@ -8,15 +8,15 @@ import datetime
 class TestEmployee(TestCase):
     def setUp(self) -> None:
         self.data = datetime.date.today()
-        self.empploye = Employee(name="Boris",
+        self.employee = Employee(name="Boris",
                                  salary=2000,
                                  )
 
     def test_salary(self):
-        self.assertEqual(self.empploye.check_salary(10), 14000)
+        self.assertEqual(self.employee.check_salary(10), 14000)
 
     def test_work(self):
-        self.assertIsInstance(self.empploye.work(), str)
+        self.assertIsInstance(self.employee.work(), str)
 
     @mock.patch('builtins.open', new_callable=mock.mock_open, read_data='borya@mail.com')
     def test_open_file(self, mock_file):

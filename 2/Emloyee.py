@@ -6,27 +6,31 @@ TODAY = datetime.date.today()
 
 
 class Logger:
-    def __init__(self, func):
-        self.func = func
+    def __call__(self, func):
+        def wrapper(*args, **kwargs):
+            result = func(*args, **kwargs)
+            if result is True:
+                self.write_log()
+            return result
 
-    def __call__(self, *args, **kwargs):
-        self.write_log()
-        return self.func(*args, **kwargs)
+        return wrapper
 
     @staticmethod
     def write_log():
         time = datetime.datetime.now()
-        error = f"{time} | {EmailAlreadyExistsException('Error: This email already exists')}\n"
-        with open('logs.txt', 'a') as file:
-            file.write(error)
+        error = f"{time} | {EmailAlreadyExistsException('Error: This email already exist')}\n"
+        with open('logs.txt', 'a') as file1:
+            file1.write(error)
+        raise EmailAlreadyExistsException('Error: This email already exist')
 
 
 class Employee:
+
     def __init__(self, name, salary, email=''):
         self.name = name
         self.salary = salary
         self.email = email
-        self.validate(self)
+        self.validate()
         self.save_email()
 
     def work(self):
@@ -48,7 +52,6 @@ class Employee:
             all_days = datetime.date(today.year, today.month, i)
             if all_days.weekday() < 5:
                 working_days += 1
-
         return working_days * self.salary
 
     def save_email(self):
@@ -56,13 +59,20 @@ class Employee:
             writer = csv.writer(file)
             writer.writerow([self.email])
 
-    @Logger
+    @staticmethod
+    def write_log():
+        time = datetime.datetime.now()
+        error = f"{time} | {EmailAlreadyExistsException('Error: This email already exist')}\n"
+        with open('logs.txt', 'a') as file1:
+            file1.write(error)
+
+    @Logger()
     def validate(self):
         with open('emails.csv', 'r') as file:
             read_file = csv.reader(file)
             for i in read_file:
                 if self.email in i:
-                    return 'Error: This email already exist'
+                    return True
 
 
 class Recruiter(Employee):
@@ -119,4 +129,5 @@ if __name__ == "__main__":
     print(petya)
     print(vasya > vanya)
     print(vasya == vanya)
+    print(roma)
 
