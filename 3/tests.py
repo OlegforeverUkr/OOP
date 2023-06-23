@@ -1,5 +1,5 @@
 from unittest import TestCase
-from Cadidates import Candidate
+from cadidates import Candidate
 
 
 class TestOne(TestCase):

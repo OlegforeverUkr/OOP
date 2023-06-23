@@ -1,8 +1,24 @@
 import csv
 import datetime
-from Exception import EmailAlreadyExistsException
+from exception import EmailAlreadyExistsException
 
 TODAY = datetime.date.today()
+
+
+class Logger:
+    def __init__(self, func):
+        self.func = func
+
+    def __call__(self, *args, **kwargs):
+        self.write_log()
+        return self.func(*args, **kwargs)
+
+    @staticmethod
+    def write_log():
+        time = datetime.datetime.now()
+        error = f"{time} | {EmailAlreadyExistsException('Error: This email already exists')}\n"
+        with open('logs.txt', 'a') as file:
+            file.write(error)
 
 
 class Employee:
@@ -10,7 +26,7 @@ class Employee:
         self.name = name
         self.salary = salary
         self.email = email
-        self.validate()
+        self.validate(self)
         self.save_email()
 
     def work(self):
@@ -40,19 +56,12 @@ class Employee:
             writer = csv.writer(file)
             writer.writerow([self.email])
 
-    @staticmethod
-    def write_log():
-        time = datetime.datetime.now()
-        error = f"{time} | {EmailAlreadyExistsException('Error: This email already exist')}\n"
-        with open('logs.txt', 'a') as file1:
-            file1.write(error)
-
+    @Logger
     def validate(self):
         with open('emails.csv', 'r') as file:
             read_file = csv.reader(file)
             for i in read_file:
                 if self.email in i:
-                    self.write_log()
                     return 'Error: This email already exist'
 
 
@@ -110,3 +119,4 @@ if __name__ == "__main__":
     print(petya)
     print(vasya > vanya)
     print(vasya == vanya)
+
