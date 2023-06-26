@@ -1,3 +1,1 @@
-2023-06-26 14:51:07.230440 | This email already exist!!!
-2023-06-26 14:52:25.646264 | This email already exist!!!
-2023-06-26 14:56:09.126307 | <class 'exception.EmailAlreadyExistsException'>This email already exist!!!
+2023-06-26 15:16:07.784838 | <class 'exception.EmailAlreadyExistsException'>This email already exist!!!

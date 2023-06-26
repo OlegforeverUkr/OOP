@@ -12,7 +12,6 @@ class Logger:
         error_msg = f"{time} | {type(error)}{str(error)}\n"
         with open('logs.txt', 'a') as file1:
             file1.write(error_msg)
-        raise error
 
 
 def decorator_error(func):
@@ -60,13 +59,6 @@ class Employee:
         with open('emails.csv', 'a', newline='') as file:
             writer = csv.writer(file)
             writer.writerow([self.email])
-
-    @staticmethod
-    def write_log():
-        time = datetime.datetime.now()
-        error = f"{time} | {EmailAlreadyExistsException('Error: This email already exist')}\n"
-        with open('logs.txt', 'a') as file1:
-            file1.write(error)
 
     @decorator_error
     def validate(self):

@@ -1,7 +1,7 @@
 from unittest import TestCase
 from unittest import mock
 from unittest.mock import patch
-from emloyee import Employee, Developer, Recruiter, Logger
+from emloyee import Employee, Developer, Recruiter
 import datetime
 
 
@@ -12,7 +12,7 @@ class TestEmployee(TestCase):
                                  salary=2000,
                                  )
 
-    def test_salary(self, mock_method):
+    def test_salary(self):
         self.assertEqual(self.employee.check_salary(10), 14000)
 
     def test_work(self):
