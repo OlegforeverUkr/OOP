@@ -1,0 +1,1 @@
+2023-06-26 15:16:07.784838 | <class 'exception.EmailAlreadyExistsException'>This email already exist!!!
