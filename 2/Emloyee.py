@@ -6,22 +6,24 @@ TODAY = datetime.date.today()
 
 
 class Logger:
-    def __call__(self, func):
-        def wrapper(*args, **kwargs):
-            result = func(*args, **kwargs)
-            if result is True:
-                self.write_log()
-            return result
-
-        return wrapper
-
     @staticmethod
-    def write_log():
+    def write_log(error):
         time = datetime.datetime.now()
-        error = f"{time} | {EmailAlreadyExistsException('Error: This email already exist')}\n"
+        error_msg = f"{time} | {type(error)}{str(error)}\n"
         with open('logs.txt', 'a') as file1:
-            file1.write(error)
-        raise EmailAlreadyExistsException('Error: This email already exist')
+            file1.write(error_msg)
+        raise error
+
+
+def decorator_error(func):
+    def wrapper(*args, **kwargs):
+        try:
+            func(*args, **kwargs)
+        except Exception as e:
+            logger = Logger()
+            logger.write_log(e)
+            raise e
+    return wrapper
 
 
 class Employee:
@@ -66,13 +68,13 @@ class Employee:
         with open('logs.txt', 'a') as file1:
             file1.write(error)
 
-    @Logger()
+    @decorator_error
     def validate(self):
         with open('emails.csv', 'r') as file:
             read_file = csv.reader(file)
             for i in read_file:
                 if self.email in i:
-                    return True
+                    raise EmailAlreadyExistsException('This email already exist!!!')
 
 
 class Recruiter(Employee):
@@ -120,14 +122,14 @@ class Developer(Employee):
 
 if __name__ == "__main__":
     roma = Recruiter('Roma', 1200, email='recrut@roma.com')
-    vasya = Developer('Vasya', 1500, tech_stack=['java', 'python', 'C++'], email='dev@vasya.com')
-    vanya = Developer('Vanya', 1700, tech_stack=['java', 'C#'], email='num@vanya.com')
-    print(roma == vasya)
-    print(vasya > roma)
-    print(roma.check_salary(TODAY.day))
-    petya = vasya + vanya
-    print(petya)
-    print(vasya > vanya)
-    print(vasya == vanya)
+    # vasya = Developer('Vasya', 1500, tech_stack=['java', 'python', 'C++'], email='dev@vasya.com')
+    # vanya = Developer('Vanya', 1700, tech_stack=['java', 'C#'], email='num@vanya.com')
+    # print(roma == vasya)
+    # print(vasya > roma)
+    # print(roma.check_salary(TODAY.day))
+    # petya = vasya + vanya
+    # print(petya)
+    # print(vasya > vanya)
+    # print(vasya == vanya)
     print(roma)
 
